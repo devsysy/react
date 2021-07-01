@@ -1,0 +1,7 @@
+# Project exclude paths
+/1.구구단/dist/
+/1.구구단/node_modules/
+/2.끝말잇기/dist/
+/2.끝말잇기/node_modules/
+/3.숫자야구/dist/
+/3.숫자야구/node_modules/

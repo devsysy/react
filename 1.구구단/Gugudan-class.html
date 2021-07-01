@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>1. 구구단</title>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+  <!--<script src="like-button.js"></script>-->
+  <div id="root"></div>
+  <script type="text/babel">
+    class Gugudan extends React.Component {
+      state = {
+        first: Math.ceil(Math.random() * 9),
+        second: Math.ceil(Math.random() * 9),
+        value: '',
+        result: '',
+      }
+
+      input;
+
+      onChange= (e) => {
+        this.setState({value: e.target.value})
+      }
+
+      onSubmit = (e) => {
+        e.preventDefault();
+        if(parseInt(this.state.value) === this.state.first * this.state.second){
+          this.setState((prevState) => {
+            // prevState 예전(과거)상태 값을 다음 상태 값에 활용할 수 있다.
+            // zeroCho의 한가지 원칙
+            // 1. this.setState 안에 this.state 즉, 예전 값이 있을 경우
+            // 2. this.setState((prevState) => { return {result: prevState.value} } return 함수로 작성해주기
+            return {
+              result: '정답 : ' + prevState.value,
+              first: Math.ceil(Math.random() * 9),
+              second: Math.ceil(Math.random() * 9),
+              value: ''
+            };
+          });
+          this.input.focus();
+        } else{
+          this.setState({
+            value: '',
+            result: '땡'
+          })
+          this.input.focus();
+        }
+      }
+
+      // 컨텐츠
+      render(){
+        // setState 할 때마다 렌더링 됨 : 10초 걸리는 작업 long(); - 성능 최적화 시켜야 됨
+        // console.log('렌더링')
+        return(
+          <React.Fragment>
+            <div>{this.state.first} 곱하기 {this.state.second} 는?</div>
+            <form onSubmit={this.onSubmit}>
+              <input ref={(c) => {this.input = c;}} type="number" value={this.state.value} onChange={this.onChange} />
+              <button>입력</button>
+            </form>
+            <div>{this.state.result}</div>
+          </React.Fragment>
+        );
+      }
+    }
+  </script>
+  <script type="text/babel">
+    ReactDOM.render(<div><Gugudan/></div>, document.querySelector('#root'));
+  </script>
+  </body>
+</html>
